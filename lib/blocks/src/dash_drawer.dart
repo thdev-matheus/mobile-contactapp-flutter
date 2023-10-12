@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:contact_app/models/models.dart';
+import 'package:contact_app/repositories/repositories.dart';
 import 'package:flutter/material.dart';
 
 import 'package:contact_app/styles/global_styles.dart';
@@ -14,6 +18,8 @@ class DashDrawer extends StatefulWidget {
 }
 
 class _DashDrawerState extends State<DashDrawer> {
+  UserRepository userRepository = UserRepository();
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -25,22 +31,25 @@ class _DashDrawerState extends State<DashDrawer> {
             ),
             currentAccountPicture: CircleAvatar(
               backgroundColor: secondary,
-              child: const Text(
-                // UserModel.username![0],
-                'T',
+              child: ClipOval(
+                clipBehavior: Clip.antiAlias,
+                child: Image.file(
+                  File(
+                    UserModel.imagePath!,
+                  ),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             accountName: Text(
-              // UserModel.username!,
-              'Theus',
+              UserModel.username!,
               style: primaryTextStyle(
                 color: white,
                 weight: FontWeight.bold,
               ),
             ),
             accountEmail: Text(
-              // UserModel.objectId!,
-              'id: asdfqwerty',
+              UserModel.objectId!,
               style: primaryTextStyle(
                 color: white,
                 size: 12,
@@ -68,11 +77,10 @@ class _DashDrawerState extends State<DashDrawer> {
                             text: 'Sair',
                             textSize: 18,
                             action: () async {
-                              // await userRepository.logout().then((_) {
-                              //   Navigator.pop(context);
-                              //   navigator(context: context, to: '/login');
-                              // });
-                              print('logout');
+                              await userRepository.logout().then((_) {
+                                Navigator.pop(context);
+                                navigator(context: context, to: '/login');
+                              });
                             },
                           ),
                         ),

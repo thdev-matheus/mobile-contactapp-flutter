@@ -1,5 +1,4 @@
 import 'package:contact_app/styles/global_styles.dart';
-import 'package:flutter/material.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart';
