@@ -1,8 +1,11 @@
+import 'package:contact_app/models/models.dart';
+import 'package:contact_app/views/views.dart';
 import 'package:flutter/material.dart';
 import 'package:contact_app/styles/global_styles.dart';
 
 import 'package:contact_app/components/components.dart';
 import 'package:contact_app/blocks/blocks.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -34,14 +37,14 @@ class _DashboardPageState extends State<DashboardPage> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text(/* UserModel.username! */ 'Theus'),
+          title: Text(UserModel.username!),
           backgroundColor: primary,
         ),
         drawer: DashDrawer(
           children: [
             ItemDashDrawer(
-              icon: Icons.list_alt_rounded,
-              title: 'Página 1',
+              icon: FontAwesomeIcons.userPlus,
+              title: 'Adicionar Contato',
               selected: page == 0,
               onAction: () {
                 Navigator.pop(context);
@@ -49,8 +52,8 @@ class _DashboardPageState extends State<DashboardPage> {
               },
             ),
             ItemDashDrawer(
-              icon: Icons.map_outlined,
-              title: 'Página 2',
+              icon: FontAwesomeIcons.addressBook,
+              title: 'Meus Contatos',
               selected: page == 1,
               onAction: () {
                 Navigator.pop(context);
@@ -66,13 +69,9 @@ class _DashboardPageState extends State<DashboardPage> {
               page = pageNumber;
             });
           },
-          children: [
-            Container(
-              color: Colors.green,
-            ),
-            Container(
-              color: Colors.yellow,
-            ),
+          children: const [
+            AddContactView(),
+            MyContactsView(),
           ],
         ),
       ),
