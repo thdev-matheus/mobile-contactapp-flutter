@@ -1,13 +1,13 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:io';
-
-import 'package:contact_app/styles/global_styles.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+import 'package:contact_app/styles/global_styles.dart';
+import 'package:contact_app/repositories/repositories.dart';
 import 'package:contact_app/components/components.dart';
 import 'package:contact_app/utils/utils.dart';
+
+import 'package:dio/dio.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,6 +20,7 @@ class RegisterForm extends StatefulWidget {
 }
 
 class _RegisterFormState extends State<RegisterForm> {
+  UserRepository userRepository = UserRepository();
   TextEditingController userNameInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
   TextEditingController confirmPasswordInputController =
@@ -85,24 +86,30 @@ class _RegisterFormState extends State<RegisterForm> {
       });
     }
 
+    //verificação da imagem
+    if (pathImg == 'Escolha a imagem') {
+      onMessageAction('Escolha uma imagem de perfil');
+    }
+
     //validação geral de retorno
     if (!userNameValidation['result'] ||
         !passwordValidation['result'] ||
         !confirmPasswordValidation['result'] ||
-        confirmPasswordInputController.text != passwordInputController.text) {
+        confirmPasswordInputController.text != passwordInputController.text ||
+        pathImg == 'Escolha a imagem') {
       return;
     }
 
     try {
-      print('função de registro');
-      // await userRepository.register(
-      //   username: userNameInputController.text,
-      //   password: passwordInputController.text,
-      // );
+      await userRepository.register(
+        username: userNameInputController.text,
+        password: passwordInputController.text,
+        imagePath: pathImg,
+      );
 
-      // onMessageAction('Cadastro efetuado com sucesso');
+      onMessageAction('Cadastro efetuado com sucesso');
 
-      // navigator(context: context, to: '/login', remove: true);
+      navigator(context: context, to: '/login', remove: true);
     } on DioException catch (e) {
       if (e.response!.data['error'] ==
           'Account already exists for this username.') {

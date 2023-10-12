@@ -24,6 +24,7 @@ class ContactAppAPIInterceptor extends Interceptor {
   Future onError(DioException err, ErrorInterceptorHandler handler) async {
     debugPrint(
         'ERROR[${err.response?.statusCode}] => PATH: ${err.requestOptions.path}');
+    debugPrint('msg => ${err.response}');
     super.onError(err, handler);
   }
 }

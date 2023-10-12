@@ -9,7 +9,7 @@ class ContactAppAPI {
 
   ContactAppAPI() {
     _dio.options.baseUrl = dotenv.get('CONTACT_APP_BASE_URL');
-    _dio.options.headers['Content-Type'] = 'applicatioon/json';
+    _dio.options.headers['Content-Type'] = 'application/json';
 
     _dio.interceptors.add(ContactAppAPIInterceptor());
   }
