@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'package:contact_app/styles/global_styles.dart';
 import 'package:contact_app/components/components.dart';
@@ -26,12 +25,9 @@ class _DashDrawerState extends State<DashDrawer> {
             ),
             currentAccountPicture: CircleAvatar(
               backgroundColor: secondary,
-              child: Text(
+              child: const Text(
                 // UserModel.username![0],
                 'T',
-                style: GoogleFonts.comme(
-                  fontSize: 35,
-                ),
               ),
             ),
             accountName: Text(

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-Color primary = Colors.amber[900]!;
-Color secondary = Colors.purple[900]!;
-Color tertiary = Colors.green[900]!;
+Color primary = Colors.indigo[900]!;
+Color secondary = Colors.green[900]!;
+Color tertiary = Colors.yellow[800]!;
 const Color black = Colors.black87;
 const Color white = Colors.white;
 const Color error = Colors.red;
@@ -13,7 +12,7 @@ TextStyle primaryTextStyle({
   double size = 20,
   FontWeight weight = FontWeight.normal,
 }) =>
-    GoogleFonts.inter(
+    TextStyle(
       color: color,
       fontSize: size,
       fontWeight: weight,
@@ -24,7 +23,7 @@ TextStyle errorTextStyle({
   double size = 20,
   FontWeight weight = FontWeight.normal,
 }) =>
-    GoogleFonts.inter(
+    TextStyle(
       color: color,
       fontSize: size,
       fontWeight: weight,

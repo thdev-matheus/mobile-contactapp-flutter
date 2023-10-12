@@ -1,10 +1,16 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:io';
+
+import 'package:contact_app/styles/global_styles.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:contact_app/components/components.dart';
 import 'package:contact_app/utils/utils.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -18,6 +24,7 @@ class _RegisterFormState extends State<RegisterForm> {
   TextEditingController passwordInputController = TextEditingController();
   TextEditingController confirmPasswordInputController =
       TextEditingController();
+  String pathImg = 'Escolha a imagem';
 
   String? userNameError;
   String? passwordError;
@@ -109,6 +116,18 @@ class _RegisterFormState extends State<RegisterForm> {
     }
   }
 
+  Future<void> getImage(ImageSource source) async {
+    Navigator.pop(context);
+
+    CroppedFile? file = await pickImage(source);
+
+    if (file != null) {
+      setState(() {
+        pathImg = file.path;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -121,6 +140,52 @@ class _RegisterFormState extends State<RegisterForm> {
           icon: Icons.person,
           label: 'Usuário',
           isRequired: true,
+        ),
+        separator(height: 16),
+        SizedBox(
+          height: 40,
+          width: MediaQuery.of(context).size.width,
+          child: TXTButton(
+            secondary: true,
+            text: pathImg.split('/').last,
+            action: () => showModalBottomSheet(
+                context: context,
+                builder: (context) => Wrap(
+                      children: [
+                        ListTile(
+                          onTap: () => getImage(ImageSource.gallery),
+                          leading: const FaIcon(
+                            FontAwesomeIcons.image,
+                            size: 25,
+                            color: black,
+                          ),
+                          title: Text(
+                            'Galeria',
+                            style: primaryTextStyle(
+                              size: 18,
+                              weight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        separator(height: 16),
+                        ListTile(
+                          onTap: () => getImage(ImageSource.camera),
+                          leading: const FaIcon(
+                            FontAwesomeIcons.cameraRetro,
+                            size: 25,
+                            color: black,
+                          ),
+                          title: Text(
+                            'Camera',
+                            style: primaryTextStyle(
+                              size: 18,
+                              weight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+          ),
         ),
         separator(height: 16),
         TextInput(

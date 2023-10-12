@@ -1,5 +1,4 @@
 import 'package:contact_app/components/components.dart';
-import 'package:contact_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 class LoginForm extends StatefulWidget {
