@@ -69,9 +69,9 @@ class _DashboardPageState extends State<DashboardPage> {
               page = pageNumber;
             });
           },
-          children: const [
-            AddContactView(),
-            MyContactsView(),
+          children: [
+            AddContactView(animateToPage: () => navigateToPage(1)),
+            const MyContactsView(),
           ],
         ),
       ),

@@ -23,8 +23,8 @@ class ContactRepository {
       '/classes/Contact',
       data: {
         'name': name,
-        'number': name,
-        'imagePath': name,
+        'number': number,
+        'imagePath': imagePath,
         'owner': Owner(UserModel.objectId),
       },
     );
