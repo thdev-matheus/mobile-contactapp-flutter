@@ -9,8 +9,8 @@ class Logo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       'ContactAPP',
-      style: GoogleFonts.permanentMarker(
-        fontSize: 100,
+      style: GoogleFonts.macondo(
+        fontSize: 60,
         color: primary,
       ),
     );
