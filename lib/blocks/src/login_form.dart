@@ -1,5 +1,7 @@
-import 'package:contact_app/components/components.dart';
 import 'package:flutter/material.dart';
+import 'package:contact_app/utils/utils.dart';
+import 'package:contact_app/components/components.dart';
+import 'package:contact_app/repositories/repositories.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -9,6 +11,7 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  UserRepository userRepository = UserRepository();
   TextEditingController usernameInputController = TextEditingController();
   TextEditingController passwordInputController = TextEditingController();
 
@@ -25,26 +28,24 @@ class _LoginFormState extends State<LoginForm> {
       return;
     }
 
-    print('função de login');
-    // await userRepository
-    //     .login(
-    //         username: usernameInputController.text,
-    //         password: passwordInputController.text)
-    //     .then((_) => navigator(context: context, to: '/dashboard'))
-    //     .catchError((e) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(
-    //       content: Text(
-    //         'Nome de usuário e/ou senha incorreto(s)',
-    //       ),
-    //     ),
-    //   );
-    // });
+    await userRepository
+        .login(
+            username: usernameInputController.text,
+            password: passwordInputController.text)
+        .then((_) => navigator(context: context, to: '/dashboard'))
+        .catchError((e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Nome de usuário e/ou senha incorreto(s)',
+          ),
+        ),
+      );
+    });
   }
 
   @override
   void initState() {
-    // userRepository = UserRepository();
     super.initState();
   }
 

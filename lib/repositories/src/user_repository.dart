@@ -1,8 +1,28 @@
 import 'package:contact_app/api/contact_app_api.dart';
+import 'package:contact_app/models/models.dart';
 import 'package:dio/dio.dart';
 
 class UserRepository {
   final _api = ContactAppAPI().dio;
+
+  Future<void> login({
+    required String username,
+    required String password,
+  }) async {
+    try {
+      _api.options.headers['X-Parse-Revocable-Session'] = '1';
+      var response =
+          await _api.get('/login?username=$username&password=$password');
+
+      _api.options.headers['X-Parse-Session-Token'] =
+          response.data['sessionToken'];
+      var me = await _api.get('/users/me');
+
+      UserModel.fromJson(me.data);
+    } catch (e) {
+      throw Error();
+    }
+  }
 
   Future<void> register({
     required String username,
@@ -30,5 +50,15 @@ class UserRepository {
     } catch (_) {
       throw Exception();
     }
+  }
+
+  Future<void> logout() async {
+    _api.options.headers['X-Parse-Session-Token'] = UserModel.sessionToken;
+
+    const body = {};
+
+    await _api.post('/logout', data: body).then((_) {
+      UserModel.clearUser();
+    });
   }
 }
