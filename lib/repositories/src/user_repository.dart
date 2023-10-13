@@ -52,6 +52,21 @@ class UserRepository {
     }
   }
 
+  Future<void> changeAvatar({required String imagePath}) async {
+    _api.options.headers['X-Parse-Session-Token'] = UserModel.sessionToken;
+
+    var data = {
+      'username': UserModel.username,
+      'imagePath': imagePath,
+    };
+
+    await _api.put('/users/${UserModel.objectId}', data: data);
+
+    var me = await _api.get('/users/me');
+
+    UserModel.fromJson(me.data);
+  }
+
   Future<void> logout() async {
     _api.options.headers['X-Parse-Session-Token'] = UserModel.sessionToken;
 
