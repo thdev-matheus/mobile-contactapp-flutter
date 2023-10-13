@@ -20,6 +20,21 @@ class ContactCard extends StatefulWidget {
 
 class _ContactCardState extends State<ContactCard> {
   double offsetX = 0.0;
+  bool imageExists = false;
+
+  Future<bool> verifyImage() async =>
+      await File(widget.contact.imagePath).exists();
+
+  Future<void> loadData() async {
+    imageExists = await verifyImage();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    loadData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,39 +58,56 @@ class _ContactCardState extends State<ContactCard> {
           elevation: 5,
           margin: const EdgeInsets.symmetric(vertical: 8),
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
             child: SizedBox(
-              height: 100,
+              height: 80,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Center(
                     child: CircleAvatar(
+                      maxRadius: 70,
+                      minRadius: 55,
                       backgroundColor: secondary,
-                      child: ClipOval(
-                        clipBehavior: Clip.antiAlias,
-                        child: Image.file(
-                          File(
-                            widget.contact.imagePath,
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      child: imageExists
+                          ? ClipOval(
+                              clipBehavior: Clip.antiAlias,
+                              child: Image.file(
+                                File(
+                                  widget.contact.imagePath,
+                                ),
+                                fit: BoxFit.cover,
+                              ),
+                            )
+                          : Text(
+                              widget.contact.name[0],
+                              style: primaryTextStyle(
+                                color: white,
+                                size: 35,
+                              ),
+                            ),
                     ),
                   ),
                   Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'CEP: ${widget.contact.name}',
-                        style: primaryTextStyle(
-                          size: 18,
-                          weight: FontWeight.bold,
+                      SizedBox(
+                        width: 230,
+                        child: Text(
+                          widget.contact.name,
+                          // maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: primaryTextStyle(
+                            size: 22,
+                            weight: FontWeight.bold,
+                          ),
                         ),
                       ),
                       Text(
                         widget.contact.number,
                         style: primaryTextStyle(
-                          size: 16,
+                          size: 18,
                         ),
                       ),
                     ],

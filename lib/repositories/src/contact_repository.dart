@@ -32,7 +32,7 @@ class ContactRepository {
 
   Future<void> deleteContact(String objectId) async {
     await _api
-        .delete('/classes/Address/$objectId')
+        .delete('/classes/Contact/$objectId')
         .then((_) async => await getContacts());
   }
 }

@@ -19,6 +19,20 @@ class DashDrawer extends StatefulWidget {
 
 class _DashDrawerState extends State<DashDrawer> {
   UserRepository userRepository = UserRepository();
+  bool imageExists = false;
+
+  Future<bool> verifyImage() async => await File(UserModel.imagePath!).exists();
+
+  Future<void> loadData() async {
+    imageExists = await verifyImage();
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    loadData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +45,23 @@ class _DashDrawerState extends State<DashDrawer> {
             ),
             currentAccountPicture: CircleAvatar(
               backgroundColor: secondary,
-              child: ClipOval(
-                clipBehavior: Clip.antiAlias,
-                child: Image.file(
-                  File(
-                    UserModel.imagePath!,
-                  ),
-                  fit: BoxFit.cover,
-                ),
-              ),
+              child: imageExists
+                  ? ClipOval(
+                      clipBehavior: Clip.antiAlias,
+                      child: Image.file(
+                        File(
+                          UserModel.imagePath!,
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                    )
+                  : Text(
+                      UserModel.username![0],
+                      style: primaryTextStyle(
+                        color: white,
+                        size: 30,
+                      ),
+                    ),
             ),
             accountName: Text(
               UserModel.username!,

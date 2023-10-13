@@ -48,6 +48,7 @@ class _AddContactFormState extends State<AddContactForm> {
     setState(() {
       landlineMask.clear();
       cellphoneMask.clear();
+      phoneError = null;
       isLandline = !isLandline;
     });
   }
@@ -72,11 +73,6 @@ class _AddContactFormState extends State<AddContactForm> {
   }
 
   Future<void> handleSubmit() async {
-    if (pathImg == 'Escolha a imagem') {
-      onMessageAction('Escolha uma imagem');
-      return;
-    }
-
     if (nameInputController.text.isEmpty) {
       nameError = 'Campo obrigatório';
     }
@@ -100,7 +96,7 @@ class _AddContactFormState extends State<AddContactForm> {
             number: isLandline
                 ? landlineMask.getMaskedText()
                 : cellphoneMask.getMaskedText(),
-            imagePath: pathImg)
+            imagePath: pathImg == 'Escolha a imagem' ? 'N/A' : pathImg)
         .then((_) {
       setState(() {
         nameInputController.clear();
@@ -108,6 +104,8 @@ class _AddContactFormState extends State<AddContactForm> {
         cellphoneMask.clear();
         landlineMask.clear();
         widget.actionDone();
+        nameError = null;
+        phoneError = null;
       });
     });
   }
